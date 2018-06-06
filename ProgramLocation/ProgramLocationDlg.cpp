@@ -6,7 +6,8 @@
 #include "ProgramLocation.h"
 #include "ProgramLocationDlg.h"
 #include "afxdialogex.h"
-#include "SearchProcess.h"
+#include "SnapshotProcess.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -160,12 +161,12 @@ HCURSOR CProgramLocationDlg::OnQueryDragIcon()
 void CProgramLocationDlg::OnBnClickedBtnTest()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CSearchProcess searchProc;
+	CSnapshotProcess snapshotProc;
 
 	CString strText;
 	GetDlgItem(IDC_EDIT_PROCESS)->GetWindowText(strText);
 
 	string strInstallPath;
-	searchProc.QueryProcessFullPath(string(strText), strInstallPath);
+	snapshotProc.QueryProcessFullPath(string(strText), strInstallPath);
 	GetDlgItem(IDC_EDIT_FULL_PATH)->SetWindowText(CString(strInstallPath.c_str()));
 }

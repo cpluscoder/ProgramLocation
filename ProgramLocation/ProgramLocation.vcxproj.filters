@@ -33,13 +33,13 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SearchProcess.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ProgramLocation.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ProgramLocationDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SnapshotProcess.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,13 +47,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SearchProcess.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ProgramLocation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ProgramLocationDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SnapshotProcess.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

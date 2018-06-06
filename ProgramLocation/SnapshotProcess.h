@@ -2,11 +2,11 @@
 
 #include <string>
 
-class CSearchProcess
+class CSnapshotProcess
 {
 public:
-	CSearchProcess(void);
-	virtual ~CSearchProcess(void);
+	CSnapshotProcess(void);
+	virtual ~CSnapshotProcess(void);
 
 	bool QueryProcessFullPath(const std::string& strProcessName, std::string& strFullPath);
 

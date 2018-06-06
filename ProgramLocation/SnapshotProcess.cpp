@@ -1,23 +1,21 @@
 #include "StdAfx.h"
-#include "SearchProcess.h"
+#include "SnapshotProcess.h"
+#include <tlhelp32.h>
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
 
 
-CSearchProcess::CSearchProcess(void)
+CSnapshotProcess::CSnapshotProcess(void)
 {
 }
 
 
-CSearchProcess::~CSearchProcess(void)
+CSnapshotProcess::~CSnapshotProcess(void)
 {
 }
 
-#include <tlhelp32.h>
-#include <boost/algorithm/string.hpp>
-
-
-bool CSearchProcess::QueryProcessFullPath(const string& strProcessName, string& strFullPath)
+bool CSnapshotProcess::QueryProcessFullPath(const string& strProcessName, string& strFullPath)
 {
 	strFullPath.clear();
 	if(strProcessName.empty())
@@ -75,7 +73,7 @@ bool CSearchProcess::QueryProcessFullPath(const string& strProcessName, string& 
 	return bResult;
 }
 
-bool CSearchProcess::GetTargetPID(const string& strProcessName, DWORD& dwPID)
+bool CSnapshotProcess::GetTargetPID(const string& strProcessName, DWORD& dwPID)
 {
 	if(strProcessName.empty())
 	{
@@ -116,7 +114,7 @@ bool CSearchProcess::GetTargetPID(const string& strProcessName, DWORD& dwPID)
 	return bResult;
 }
 
-bool CSearchProcess::GetProcessFullPath(DWORD dwPID, const string& strProcessName, string& strFullPath)
+bool CSnapshotProcess::GetProcessFullPath(DWORD dwPID, const string& strProcessName, string& strFullPath)
 {
 	strFullPath.clear();
 	if(strProcessName.empty())
@@ -154,7 +152,7 @@ bool CSearchProcess::GetProcessFullPath(DWORD dwPID, const string& strProcessNam
 	return bResult;
 }
 
-bool CSearchProcess::GetProcessList(void)
+bool CSnapshotProcess::GetProcessList(void)
 {
 	HANDLE hProcessSnap;
 	HANDLE hProcess;
@@ -228,7 +226,7 @@ bool CSearchProcess::GetProcessList(void)
 }
 
 
-bool CSearchProcess::ListProcessModules(DWORD dwPID)
+bool CSnapshotProcess::ListProcessModules(DWORD dwPID)
 {
 	// Take a snapshot of all modules in the specified process.
 	HANDLE hModuleSnap = ::CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwPID);
@@ -266,7 +264,7 @@ bool CSearchProcess::ListProcessModules(DWORD dwPID)
 	return true;
 }
 
-bool CSearchProcess::ListProcessThreads(DWORD dwOwnerPID)
+bool CSnapshotProcess::ListProcessThreads(DWORD dwOwnerPID)
 {
 	HANDLE hThreadSnap = INVALID_HANDLE_VALUE;
 	THREADENTRY32 te32;
@@ -308,7 +306,7 @@ bool CSearchProcess::ListProcessThreads(DWORD dwOwnerPID)
 	return true;
 }
 
-void CSearchProcess::printError(TCHAR* msg)
+void CSnapshotProcess::printError(TCHAR* msg)
 {
 	DWORD eNum;
 	TCHAR sysMsg[256];
