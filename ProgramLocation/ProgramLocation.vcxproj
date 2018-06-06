@@ -110,7 +110,11 @@
   <ItemGroup>
     <ClInclude Include="ProgramLocation.h" />
     <ClInclude Include="ProgramLocationDlg.h" />
+    <ClInclude Include="ProgramRegist.h" />
+    <ClInclude Include="ProgramShortcut.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ShortcutOnDesktop.h" />
+    <ClInclude Include="ShortcutOnStartMenu.h" />
     <ClInclude Include="SnapshotProcess.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -118,6 +122,10 @@
   <ItemGroup>
     <ClCompile Include="ProgramLocation.cpp" />
     <ClCompile Include="ProgramLocationDlg.cpp" />
+    <ClCompile Include="ProgramRegist.cpp" />
+    <ClCompile Include="ProgramShortcut.cpp" />
+    <ClCompile Include="ShortcutOnDesktop.cpp" />
+    <ClCompile Include="ShortcutOnStartMenu.cpp" />
     <ClCompile Include="SnapshotProcess.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

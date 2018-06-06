@@ -2,6 +2,8 @@
 
 #include <string>
 
+/**	@brief	从进程信息获取进程全路径
+ */
 class CSnapshotProcess
 {
 public:
