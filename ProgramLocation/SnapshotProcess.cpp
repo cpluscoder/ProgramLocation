@@ -23,7 +23,6 @@ bool CSnapshotProcess::QueryProcessFullPath(const string& strProcessName, string
 		return false;
 	}
 
-	bool bResult = false;
 	DWORD dwPID = 0;
 	if(!GetTargetPID(strProcessName, dwPID))
 	{
@@ -70,7 +69,6 @@ bool CSnapshotProcess::QueryProcessFullPath(const string& strProcessName, string
 
 	::CloseHandle(hProcessSnap);
 */
-	return bResult;
 }
 
 bool CSnapshotProcess::GetTargetPID(const string& strProcessName, DWORD& dwPID)

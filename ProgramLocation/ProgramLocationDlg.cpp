@@ -7,6 +7,7 @@
 #include "ProgramLocationDlg.h"
 #include "afxdialogex.h"
 #include "SnapshotProcess.h"
+#include "ShortcutOnDesktop.h"
 
 
 #ifdef _DEBUG
@@ -66,7 +67,8 @@ BEGIN_MESSAGE_MAP(CProgramLocationDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BTN_TEST, &CProgramLocationDlg::OnBnClickedBtnTest)
+	ON_BN_CLICKED(IDC_BTN_PROCESS_SNAPSHOT, &CProgramLocationDlg::OnBnClickedBtnProcessSnapshot)
+	ON_BN_CLICKED(IDC_BTN_DESKTOP, &CProgramLocationDlg::OnBnClickedBtnDesktop)
 END_MESSAGE_MAP()
 
 
@@ -157,16 +159,50 @@ HCURSOR CProgramLocationDlg::OnQueryDragIcon()
 }
 
 
-
-void CProgramLocationDlg::OnBnClickedBtnTest()
+void CProgramLocationDlg::OnBnClickedBtnProcessSnapshot()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CSnapshotProcess snapshotProc;
 
-	CString strText;
-	GetDlgItem(IDC_EDIT_PROCESS)->GetWindowText(strText);
+	/// 通过进程快照 获取开票软件安装路径
+	CString strTarget;
+	GetDlgItem(IDC_EDIT_PROCESS)->GetWindowText(strTarget);
 
-	string strInstallPath;
-	snapshotProc.QueryProcessFullPath(string(strText), strInstallPath);
-	GetDlgItem(IDC_EDIT_FULL_PATH)->SetWindowText(CString(strInstallPath.c_str()));
+	if(strTarget.GetLength() > 0)
+	{
+		CSnapshotProcess snapshotProc;
+		string strInstallPath;
+		if(snapshotProc.QueryProcessFullPath(string(strTarget), strInstallPath))
+		{
+			GetDlgItem(IDC_EDIT_FULL_PATH)->SetWindowText(CString(strInstallPath.c_str()));
+		}
+	}
 }
+
+void CProgramLocationDlg::OnBnClickedBtnDesktop()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	/// 通过桌面快捷方式 获取开票软件安装路径
+	CString strTarget;
+	GetDlgItem(IDC_EDIT_PROCESS)->GetWindowText(strTarget);
+
+	if(strTarget.GetLength() > 0)
+	{
+		CShortcutOnDesktop shortcutOnDesktop;
+
+		shortcutOnDesktop.GetDesktopShortcut();
+		shortcutOnDesktop.GetShortcutLink();
+
+		unordered_map<string, string> mapSearchResult;
+		shortcutOnDesktop.SearchShortcut(string(strTarget), mapSearchResult);
+		if(!mapSearchResult.empty())
+		{
+			CString strText;
+			strText.Format("%s -- %s", mapSearchResult.begin()->first.c_str(), mapSearchResult.begin()->second.c_str());
+			GetDlgItem(IDC_EDIT_FULL_PATH)->SetWindowText(strText);
+		}
+	}
+	//shortcutOnDesktop.SearchShortcut("mainexecute.exe", mapSearchResult);
+	//shortcutOnDesktop.SearchShortcut("KP.exe", mapSearchResult);
+}
+
