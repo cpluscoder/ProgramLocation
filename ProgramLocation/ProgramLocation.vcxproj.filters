@@ -42,9 +42,6 @@
     <ClInclude Include="SnapshotProcess.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ProgramShortcut.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ProgramRegist.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -69,9 +66,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SnapshotProcess.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ProgramShortcut.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ProgramRegist.cpp">
