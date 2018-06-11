@@ -7,7 +7,8 @@
 #include "ProgramLocationDlg.h"
 #include "afxdialogex.h"
 #include "SnapshotProcess.h"
-#include "ShortcutOnDesktop.h"
+#include "ShortcutFile.h"
+#include <algorithm>
 
 
 #ifdef _DEBUG
@@ -61,6 +62,7 @@ CProgramLocationDlg::CProgramLocationDlg(CWnd* pParent /*=NULL*/)
 void CProgramLocationDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_LIST_RESULT, m_lstResult);
 }
 
 BEGIN_MESSAGE_MAP(CProgramLocationDlg, CDialogEx)
@@ -68,7 +70,7 @@ BEGIN_MESSAGE_MAP(CProgramLocationDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BTN_PROCESS_SNAPSHOT, &CProgramLocationDlg::OnBnClickedBtnProcessSnapshot)
-	ON_BN_CLICKED(IDC_BTN_DESKTOP, &CProgramLocationDlg::OnBnClickedBtnDesktop)
+	ON_BN_CLICKED(IDC_BTN_SHORTCUT, &CProgramLocationDlg::OnBnClickedBtnShortcut)
 END_MESSAGE_MAP()
 
 
@@ -104,7 +106,7 @@ BOOL CProgramLocationDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	GetDlgItem(IDC_EDIT_PROCESS)->SetWindowText("BaiduMusic.exe");
+	GetDlgItem(IDC_EDIT_PROCESS)->SetWindowText("devenv.exe");
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -167,42 +169,40 @@ void CProgramLocationDlg::OnBnClickedBtnProcessSnapshot()
 	CString strTarget;
 	GetDlgItem(IDC_EDIT_PROCESS)->GetWindowText(strTarget);
 
+	m_lstResult.ResetContent();
 	if(strTarget.GetLength() > 0)
 	{
 		CSnapshotProcess snapshotProc;
 		string strInstallPath;
 		if(snapshotProc.QueryProcessFullPath(string(strTarget), strInstallPath))
 		{
-			GetDlgItem(IDC_EDIT_FULL_PATH)->SetWindowText(CString(strInstallPath.c_str()));
+			m_lstResult.AddString(strInstallPath.c_str());
 		}
 	}
 }
 
-void CProgramLocationDlg::OnBnClickedBtnDesktop()
+void CProgramLocationDlg::OnBnClickedBtnShortcut()
 {
 	// TODO: 在此添加控件通知处理程序代码
-
-	/// 通过桌面快捷方式 获取开票软件安装路径
 	CString strTarget;
 	GetDlgItem(IDC_EDIT_PROCESS)->GetWindowText(strTarget);
 
+	m_lstResult.ResetContent();
 	if(strTarget.GetLength() > 0)
 	{
-		CShortcutOnDesktop shortcutOnDesktop;
-
-		shortcutOnDesktop.GetDesktopShortcut();
-		shortcutOnDesktop.GetShortcutLink();
-
-		unordered_map<string, string> mapSearchResult;
-		shortcutOnDesktop.SearchShortcut(string(strTarget), mapSearchResult);
-		if(!mapSearchResult.empty())
+		CShortcutFileCtrl shortcutOnStartMenu;
+		if(shortcutOnStartMenu.Search())
 		{
-			CString strText;
-			strText.Format("%s -- %s", mapSearchResult.begin()->first.c_str(), mapSearchResult.begin()->second.c_str());
-			GetDlgItem(IDC_EDIT_FULL_PATH)->SetWindowText(strText);
+			unordered_map<string, string> mapShortcut2Link;
+			if(shortcutOnStartMenu.FindTarget(string(strTarget), mapShortcut2Link))
+			{
+				for_each(mapShortcut2Link.begin(), mapShortcut2Link.end(), [&](const unordered_map<string, string>::value_type key2value) {
+					m_lstResult.AddString(key2value.first.c_str());
+					string strText = "-->";
+					strText.append(key2value.second);
+					m_lstResult.AddString(strText.c_str());
+				});
+			}
 		}
 	}
-	//shortcutOnDesktop.SearchShortcut("mainexecute.exe", mapSearchResult);
-	//shortcutOnDesktop.SearchShortcut("KP.exe", mapSearchResult);
 }
-

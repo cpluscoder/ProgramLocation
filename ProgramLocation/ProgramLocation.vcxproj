@@ -113,6 +113,7 @@
     <ClInclude Include="ProgramRegist.h" />
     <ClInclude Include="ProgramShortcut.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ShortcutFile.h" />
     <ClInclude Include="ShortcutOnDesktop.h" />
     <ClInclude Include="ShortcutOnStartMenu.h" />
     <ClInclude Include="SnapshotProcess.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="ProgramLocationDlg.cpp" />
     <ClCompile Include="ProgramRegist.cpp" />
     <ClCompile Include="ProgramShortcut.cpp" />
+    <ClCompile Include="ShortcutFile.cpp" />
     <ClCompile Include="ShortcutOnDesktop.cpp" />
     <ClCompile Include="ShortcutOnStartMenu.cpp" />
     <ClCompile Include="SnapshotProcess.cpp" />

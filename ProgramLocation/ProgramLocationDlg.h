@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "afxwin.h"
 
 
 // CProgramLocationDlg ¶Ô»°¿ò
@@ -31,5 +32,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedBtnProcessSnapshot();
-	afx_msg void OnBnClickedBtnDesktop();
+	afx_msg void OnBnClickedBtnShortcut();
+	CListBox m_lstResult;
 };
