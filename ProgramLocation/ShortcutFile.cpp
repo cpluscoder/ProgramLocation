@@ -153,6 +153,8 @@ bool CShortcutFileCtrl::Shortcut2Link(const string& strShortcut, string& strLink
 	strLink.clear();
 	char szPath[MAX_PATH];
 	ZeroMemory(szPath, sizeof(szPath));
+
+	::CoInitialize(NULL);/// add for WinXP
 	LPCOLESTR pwszFileName;
 	{USES_CONVERSION; pwszFileName = T2COLE(strShortcut.c_str());}
 	IShellLink* pIShellLink = NULL;
@@ -172,6 +174,8 @@ bool CShortcutFileCtrl::Shortcut2Link(const string& strShortcut, string& strLink
 		}
 		pIShellLink->Release();
 	}
+	::CoUninitialize();/// add for WinXP
+
 	return !(strLink.empty());
 }
 
