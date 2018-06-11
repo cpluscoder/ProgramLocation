@@ -35,7 +35,7 @@ bool CSnapshotProcess::QueryProcessFullPath(const string& strProcessName, string
 
 	return true;
 
-/*
+#ifdef USE_MSDN_SRC
 	HANDLE hProcessSnap = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if(hProcessSnap == INVALID_HANDLE_VALUE)
 	{
@@ -68,7 +68,7 @@ bool CSnapshotProcess::QueryProcessFullPath(const string& strProcessName, string
 	}
 
 	::CloseHandle(hProcessSnap);
-*/
+#endif
 }
 
 bool CSnapshotProcess::GetTargetPID(const string& strProcessName, DWORD& dwPID)
@@ -94,13 +94,6 @@ bool CSnapshotProcess::GetTargetPID(const string& strProcessName, DWORD& dwPID)
 		{
 			if(boost::algorithm::iequals(strProcessName, string(processEntry32.szExeFile)))
 			{
-				TRACE("\n\n=====================================================");
-				TRACE("\nPROCESS NAME:  %s", processEntry32.szExeFile);
-				TRACE("\n-------------------------------------------------------");
-				TRACE("\n  Process ID        = %d", processEntry32.th32ProcessID);
-				TRACE("\n  Thread count      = %d", processEntry32.cntThreads);
-				TRACE("\n  Parent process ID = %d", processEntry32.th32ParentProcessID);
-				TRACE("\n  Priority base     = %d", processEntry32.pcPriClassBase);
 				dwPID = processEntry32.th32ProcessID;
 				bResult = true;
 				break;
@@ -134,9 +127,6 @@ bool CSnapshotProcess::GetProcessFullPath(DWORD dwPID, const string& strProcessN
 	{
 		do
 		{
-			TRACE("\n\n     MODULE NAME:     %s",		moduleEntry32.szModule);
-			TRACE("\n     Executable     = %s",		moduleEntry32.szExePath);
-			TRACE("\n     Process ID     = %d",    moduleEntry32.th32ProcessID);
 			if(boost::algorithm::iequals(strProcessName, string(moduleEntry32.szModule)))
 			{
 				strFullPath = moduleEntry32.szExePath;
@@ -150,6 +140,7 @@ bool CSnapshotProcess::GetProcessFullPath(DWORD dwPID, const string& strProcessN
 	return bResult;
 }
 
+#ifdef USE_MSDN_SRC
 bool CSnapshotProcess::GetProcessList(void)
 {
 	HANDLE hProcessSnap;
@@ -336,5 +327,4 @@ void CSnapshotProcess::printError(TCHAR* msg)
 	// Display the message
 	TRACE("\n  WARNING: %s failed with error %d (%s)", msg, eNum, sysMsg);
 }
-
-
+#endif
