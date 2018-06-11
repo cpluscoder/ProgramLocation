@@ -34,4 +34,5 @@ public:
 	afx_msg void OnBnClickedBtnProcessSnapshot();
 	afx_msg void OnBnClickedBtnShortcut();
 	CListBox m_lstResult;
+	afx_msg void OnBnClickedBtnReg();
 };

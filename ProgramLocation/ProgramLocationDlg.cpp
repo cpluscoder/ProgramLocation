@@ -8,6 +8,7 @@
 #include "afxdialogex.h"
 #include "SnapshotProcess.h"
 #include "ShortcutFile.h"
+#include "ProgramRegist.h"
 #include <algorithm>
 
 
@@ -71,6 +72,7 @@ BEGIN_MESSAGE_MAP(CProgramLocationDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BTN_PROCESS_SNAPSHOT, &CProgramLocationDlg::OnBnClickedBtnProcessSnapshot)
 	ON_BN_CLICKED(IDC_BTN_SHORTCUT, &CProgramLocationDlg::OnBnClickedBtnShortcut)
+	ON_BN_CLICKED(IDC_BTN_REG, &CProgramLocationDlg::OnBnClickedBtnReg)
 END_MESSAGE_MAP()
 
 
@@ -204,5 +206,25 @@ void CProgramLocationDlg::OnBnClickedBtnShortcut()
 				});
 			}
 		}
+	}
+}
+
+
+void CProgramLocationDlg::OnBnClickedBtnReg()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_lstResult.ResetContent();
+
+	CProgramRegist _regist;
+	string strBw, strHx;
+	if(_regist.ReadHxInstallPath(strHx))
+	{
+		TRACE("航信:%s\n", strHx.c_str());
+		m_lstResult.AddString(strHx.c_str());
+	}
+	if(_regist.ReadBwInstallPath(strBw))
+	{
+		TRACE("百旺:%s\n", strBw.c_str());
+		m_lstResult.AddString(strBw.c_str());
 	}
 }
